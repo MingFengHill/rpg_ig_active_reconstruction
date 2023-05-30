@@ -22,6 +22,7 @@
 #include <pcl/conversions.h>
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl_ros/transforms.h>
+#include <std_msgs/Int32.h>
 
 namespace ig_active_reconstruction
 {
@@ -40,6 +41,7 @@ namespace octomap
   {
     pcl_subscriber_ = nh_.subscribe("pcl_input",10,&CSCOPE::insertCloudCallback,this);
     pcl_input_service_ = nh_.advertiseService("pcl_input", &CSCOPE::insertCloudService,this);
+    octomap_update_down_pub_ = nh_.advertise<std_msgs::Int32>("octomap_update_down", 1000);
   }
   
   TEMPT
@@ -57,6 +59,11 @@ namespace octomap
     
     insertCloud(pc);
     ROS_INFO("Inserted new pointcloud");
+
+    std_msgs::Int32 msg;
+    msg.data = 1;
+    octomap_update_down_pub_.publish(msg);
+    ROS_INFO("octomap updated down........");
   }
   
   TEMPT

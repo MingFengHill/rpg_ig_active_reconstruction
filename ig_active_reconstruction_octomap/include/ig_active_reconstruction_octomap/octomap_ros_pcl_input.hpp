@@ -82,6 +82,8 @@ namespace octomap
     
     ros::Subscriber pcl_subscriber_;
     ros::ServiceServer pcl_input_service_;
+    ros::Publisher octomap_update_down_pub_;
+
     
     tf::TransformListener tf_listener_;
   };
