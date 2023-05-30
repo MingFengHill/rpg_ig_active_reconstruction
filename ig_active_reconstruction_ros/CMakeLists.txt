@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(ig_active_reconstruction_ros)
-set(CMAKE_BUILD_TYPE Release)
+
+SET(CMAKE_BUILD_TYPE "Debug")
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
 list( APPEND CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
@@ -9,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   ig_active_reconstruction_msgs
   ig_active_reconstruction
   movements
+  std_msgs
 )
 
 
@@ -55,6 +59,16 @@ add_dependencies(basic_view_planner
  ${catkin_EXPORTED_TARGETS}
 )
 
+add_executable(benchmark_view_planner
+  src/ros_nodes/benchmark_view_planner.cpp
+  ${${PROJECT_NAME}_CODE_BASE}
+)
+target_link_libraries(benchmark_view_planner
+   ${catkin_LIBRARIES}
+)
+add_dependencies(benchmark_view_planner
+ ${catkin_EXPORTED_TARGETS}
+)
 
 add_executable(simple_viewspace_module
   src/ros_nodes/simple_viewspace_module.cpp

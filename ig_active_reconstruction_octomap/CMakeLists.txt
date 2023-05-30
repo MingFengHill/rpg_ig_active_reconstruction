@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(ig_active_reconstruction_octomap)
-set(CMAKE_BUILD_TYPE Release)
+
+SET(CMAKE_BUILD_TYPE "Debug")
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
 ## c++11 is preferred but ROS is built with c++03 and the PCL binaries are not compatible (boost)
 ##list( APPEND CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")

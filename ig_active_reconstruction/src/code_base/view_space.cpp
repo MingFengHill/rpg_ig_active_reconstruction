@@ -18,6 +18,7 @@
 #include "ig_active_reconstruction/view_space.hpp"
 #include <fstream>
 #include <stdexcept>
+#include <iostream>
 
 namespace ig_active_reconstruction
 {
@@ -244,6 +245,7 @@ void ViewSpace::loadFromFile( std::string _filename )
   
   unsigned int nr_of_views;
   bool success = static_cast<bool>(in >> nr_of_views);
+  std::cout << "nr_of_views: " << nr_of_views << std::endl;
   
   if(!success)
     return;
@@ -268,6 +270,7 @@ void ViewSpace::loadFromFile( std::string _filename )
     
     //view_space_.push_back(new_pose);
     views_index_map_[new_pose.index()] = new_pose;//view_space_.back();
+    std::cout << "index: " << new_pose.index() << std::endl;
   }
 }
 

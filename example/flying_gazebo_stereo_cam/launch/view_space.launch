@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Viewspace module -->
+  <include file="$(find flying_gazebo_stereo_cam)/launch/simple_viewspace_module.launch" /> 
+</launch>

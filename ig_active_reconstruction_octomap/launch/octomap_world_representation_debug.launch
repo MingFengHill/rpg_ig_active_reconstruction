@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <node pkg="ig_active_reconstruction_octomap" type="octomap_world_representation" name="octomap_world_representation" clear_params="true" output="screen">
+  <node pkg="ig_active_reconstruction_octomap" type="octomap_world_representation" name="octomap_world_representation" clear_params="true" output="screen" launch-prefix="gdb -ex run --args">
     
     <!--Octree configuration-->
     <param name="resolution_m" value="0.01" />
