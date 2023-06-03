@@ -39,7 +39,13 @@ namespace world_representation
     available_ig_receiver_ = nh.serviceClient<ig_active_reconstruction_msgs::StringList>("world/ig_list");
     available_mm_receiver_ = nh.serviceClient<ig_active_reconstruction_msgs::StringList>("world/mm_list");
   }
-  
+
+  RosClientCI::ResultInformation RosClientCI::clearTree()
+  {
+    ROS_ERROR("Do not call this function: RosClientCI::clearTree!!!!");
+    return ResultInformation::SUCCEEDED;
+  }
+
   RosClientCI::ResultInformation RosClientCI::computeViewIg(IgRetrievalCommand& command, ViewIgResult& output_ig)
   {
     ig_active_reconstruction_msgs::InformationGainCalculation call;

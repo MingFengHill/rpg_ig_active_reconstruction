@@ -73,6 +73,8 @@ namespace views
      * @return True if the view was found and deleted.
      */
     virtual ViewSpaceUpdateResult deleteView( View::IdType view_id )=0;
+
+    virtual ViewSpaceUpdateResult clearViewSpace()=0;
   };
   
 }

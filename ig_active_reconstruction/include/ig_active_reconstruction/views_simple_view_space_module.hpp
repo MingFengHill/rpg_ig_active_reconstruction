@@ -88,6 +88,8 @@ namespace views
      * @return True if the view was found and deleted.
      */
     virtual ViewSpaceUpdateResult deleteView( View::IdType view_id );
+
+    virtual ViewSpaceUpdateResult clearViewSpace();
     
   public:
     ViewSpace viewspace_; //! The internal viewspace.

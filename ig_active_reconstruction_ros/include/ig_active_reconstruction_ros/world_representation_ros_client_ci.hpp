@@ -38,6 +38,8 @@ namespace world_representation
     RosClientCI( ros::NodeHandle nh );
     
     virtual ~RosClientCI(){};
+
+    virtual ResultInformation clearTree();
     
     /*! Calculates a set of information gains for a given view.
      * @param command Specifies which information gains have to be calculated and for which pose along with further parameters that define how the ig('s) will be collected.

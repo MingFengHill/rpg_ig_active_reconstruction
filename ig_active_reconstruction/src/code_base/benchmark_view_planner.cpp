@@ -32,7 +32,7 @@ namespace ig_active_reconstruction
   {
   }
   
-  BenchmarkViewPlanner::BenchmarkViewPlanner(Config config)
+  BenchmarkViewPlanner::BenchmarkViewPlanner( ros::NodeHandle nh, Config config )
   : config_(config)
   , robot_comm_unit_(nullptr)
   , views_comm_unit_(nullptr)
@@ -42,9 +42,18 @@ namespace ig_active_reconstruction
   , status_(Status::UNINITIALIZED)
   , runProcedure_(false)
   , pauseProcedure_(false)
+  , nh_(nh)
+  , view_update_(false)
   {
-    
+    views_space_sub_ = nh_.subscribe("views/clear", 1, &BenchmarkViewPlanner::viewsSpaceClearCallback, this);
   }
+
+  void BenchmarkViewPlanner::viewsSpaceClearCallback(const std_msgs::Int32::ConstPtr& clear_token)
+  {
+    std::unique_lock<std::mutex> lockGuard(view_update_mutex_);
+    view_update_ = true;
+  }
+
   
   BenchmarkViewPlanner::~BenchmarkViewPlanner()
   {
@@ -191,9 +200,38 @@ namespace ig_active_reconstruction
 
     
     unsigned int reception_nr = 0;
+
+    int step_num = 10;
+    int cur_step = 1;
+
+    {
+      std::unique_lock<std::mutex> lockGuard(view_update_mutex_);
+      view_update_ = false;
+    }
     
     do
     {
+      if (cur_step == step_num)
+      {
+        cur_step = 1;
+        viewspace_->clear();
+        do {
+          int is_update = false;
+          {
+            std::unique_lock<std::mutex> lockGuard(view_update_mutex_);
+            is_update = view_update_;
+          }
+          if (is_update) {
+            std::unique_lock<std::mutex> lockGuard(view_update_mutex_);
+            view_update_ = false;
+            first_id = robot_comm_unit_->getCurrentView();
+            std::cout << "first step: " << first_id << std::endl;
+            viewspace_->setBad(first_id * 2);
+            break;
+          }
+        } while (true);
+      }
+      cur_step++;
       // determine view candidate subset of viewspace .....................
       views::ViewSpace::IdSet view_candidate_ids;
       viewspace_->getGoodViewSpace(view_candidate_ids, config_.discard_visited);
@@ -219,11 +257,11 @@ namespace ig_active_reconstruction
       views::View nbv = viewspace_->getView(nbv_id);
       
       // check termination criteria ...............................................
-      if( goal_evaluation_module_->isDone() )
-      {
-	std::cout<<"\n\nTermination criteria was fulfilled. Reconstruction procedure ends.\n\n";
-	break;
-      }
+//       if( goal_evaluation_module_->isDone() )
+//       {
+// 	std::cout<<"\n\nTermination criteria was fulfilled. Reconstruction procedure ends.\n\n";
+// 	break;
+//       }
       
       // move to next best view....................................................
       bool successfully_moved = false;

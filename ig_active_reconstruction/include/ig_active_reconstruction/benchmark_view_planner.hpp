@@ -17,15 +17,17 @@
 
 #pragma once
 
-#include <thread>
-#include <mutex>
-
+#include "ros/ros.h"
 #include "ig_active_reconstruction/robot_ros_client_rl.hpp"
 #include "ig_active_reconstruction/views_communication_interface.hpp"
 #include "ig_active_reconstruction/world_representation_communication_interface.hpp"
 #include "ig_active_reconstruction/utility_calculator.hpp"
 #include "ig_active_reconstruction/goal_evaluation_module.hpp"
 #include "ig_active_reconstruction/view_space.hpp"
+
+#include <thread>
+#include <mutex>
+#include <std_msgs/Int32.h>
 
 namespace ig_active_reconstruction
 {
@@ -71,7 +73,7 @@ namespace ig_active_reconstruction
   public:
     /*! Constructor.
      */
-    BenchmarkViewPlanner( Config config = Config() );
+    BenchmarkViewPlanner( ros::NodeHandle nh, Config config = Config() );
     
     virtual ~BenchmarkViewPlanner();
     
@@ -132,6 +134,8 @@ namespace ig_active_reconstruction
     /*! Pausing if set. TODO: use condition variable
      */
     void pausePoint();
+
+    void viewsSpaceClearCallback(const std_msgs::Int32::ConstPtr& clear_token);
     
   protected:
     Config config_; //! View planner configuration.
@@ -151,6 +155,11 @@ namespace ig_active_reconstruction
     
     boost::shared_ptr<views::ViewSpace> viewspace_; //! Current viewspace.
     
+    // update views space
+    ros::NodeHandle nh_;
+    bool view_update_;
+    std::mutex view_update_mutex_;
+    ros::Subscriber views_space_sub_;
   };
   
 }

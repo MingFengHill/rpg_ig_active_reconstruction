@@ -21,6 +21,8 @@
 #include <octomap/octomap_types.h>
 #include <boost/foreach.hpp>
 
+#include <iostream>
+
 namespace ig_active_reconstruction
 {
   
@@ -47,6 +49,14 @@ namespace octomap
   void CSCOPE::setNewRayCastingConfig( PinholeCamRayCaster::Config& config )
   {
     ray_caster_.setConfig(config);
+  }
+
+  TEMPT
+  typename CSCOPE::ResultInformation CSCOPE::clearTree()
+  {
+    std::cout << "CSCOPE::clearTree" << std::endl;
+    this->link_.octree->clear();
+    return ResultInformation::SUCCEEDED;
   }
   
   TEMPT

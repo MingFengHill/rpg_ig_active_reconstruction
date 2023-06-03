@@ -47,6 +47,8 @@ public:
 public:
   
   ViewSpace();
+
+  void clear();
     
   /*! returns all view points in the view space as a vector 
    */

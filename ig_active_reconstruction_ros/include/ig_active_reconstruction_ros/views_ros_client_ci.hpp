@@ -62,6 +62,8 @@ namespace views
      * @return True if the view was found and deleted.
      */
     virtual ViewSpaceUpdateResult deleteView( View::IdType view_id );
+
+    virtual ViewSpaceUpdateResult clearViewSpace();
     
   protected:
     ros::NodeHandle nh_;

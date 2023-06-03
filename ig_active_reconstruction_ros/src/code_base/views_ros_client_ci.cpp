@@ -119,6 +119,14 @@ namespace views
     
     return ros_conversions::viewSpaceUpdateResultFromMsg(call.response.update_result);
   }
+
+  // mock function
+  RosClientCI::ViewSpaceUpdateResult RosClientCI::clearViewSpace()
+  {
+    ROS_ERROR("Do not call this function!!!!");
+    return ViewSpaceUpdateResult::SUCCEEDED;
+  }
+
   
   
 }

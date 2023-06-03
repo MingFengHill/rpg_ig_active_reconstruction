@@ -20,6 +20,7 @@
 
 #include <stdexcept>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 //#include "ig_active_reconstruction_ros/world_representation_ros_server_ci.hpp"
 #include "ig_active_reconstruction_ros/world_conversions.hpp"
@@ -39,6 +40,25 @@ namespace world_representation
     map_metric_computation_ = nh.advertiseService("world/map_metric", &CSCOPE::mmComputationService, this );
     available_ig_receiver_ = nh.advertiseService("world/ig_list", &CSCOPE::availableIgService, this );
     available_mm_receiver_ = nh.advertiseService("world/mm_list", &CSCOPE::availableMmService, this );
+    tree_clear_sub_ = nh.subscribe("world/clear", 1, &RosServerCI::treeClearCallback, this);
+    octomap_clear_down_pub_ = nh_.advertise<std_msgs::Int32>("world/octomap_clear_down", 1000);
+  }
+
+  TEMPT
+  void CSCOPE::treeClearCallback(const std_msgs::Int32::ConstPtr& clear_token)
+  {
+    linked_interface_->clearTree();
+    std_msgs::Int32 msg;
+    msg.data = 1;
+    octomap_clear_down_pub_.publish(msg);
+    ROS_INFO("CSCOPE::treeClearCallback, clear down signal published");
+  }
+
+  TEMPT
+  typename CSCOPE::ResultInformation CSCOPE::clearTree()
+  {
+    ROS_ERROR("Do not call this function: CSCOPE::clearTree");
+    return CSCOPE::ResultInformation::SUCCEEDED;
   }
   
   TEMPT

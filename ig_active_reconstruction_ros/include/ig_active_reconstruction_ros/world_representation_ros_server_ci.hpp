@@ -25,6 +25,8 @@
 #include "ig_active_reconstruction_msgs/MapMetricCalculation.h"
 #include "ig_active_reconstruction_msgs/StringList.h"
 
+#include <std_msgs/Int32.h>
+
 namespace ig_active_reconstruction
 {
   
@@ -65,12 +67,16 @@ namespace world_representation
      * @param available_map_metrics (output) Set of available map metrics.
      */
     virtual void availableMapMetrics( std::vector<MetricInfo>& available_map_metrics );
+
+    virtual ResultInformation clearTree();
     
   protected:
     bool igComputationService( ig_active_reconstruction_msgs::InformationGainCalculation::Request& req, ig_active_reconstruction_msgs::InformationGainCalculation::Response& res );
     bool mmComputationService( ig_active_reconstruction_msgs::MapMetricCalculation::Request& req, ig_active_reconstruction_msgs::MapMetricCalculation::Response& res );
     bool availableIgService( ig_active_reconstruction_msgs::StringList::Request& req, ig_active_reconstruction_msgs::StringList::Response& res );
     bool availableMmService( ig_active_reconstruction_msgs::StringList::Request& req, ig_active_reconstruction_msgs::StringList::Response& res );
+
+    void treeClearCallback(const std_msgs::Int32::ConstPtr& clear_token);
     
   protected:
     ros::NodeHandle nh_;
@@ -81,6 +87,9 @@ namespace world_representation
     ros::ServiceServer map_metric_computation_;
     ros::ServiceServer available_ig_receiver_;
     ros::ServiceServer available_mm_receiver_;
+
+    ros::Subscriber tree_clear_sub_;
+    ros::Publisher octomap_clear_down_pub_;
   };
   
   

@@ -74,7 +74,7 @@ int main(int argc, char **argv)
   
   // only the view planner resides here
   // ...................................................................................................................
-  iar::BenchmarkViewPlanner view_planner(bvp_config);
+  iar::BenchmarkViewPlanner view_planner(nh, bvp_config);
   
   
   // robot, viewspace module and world representation are external

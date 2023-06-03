@@ -77,6 +77,12 @@ namespace views
     else
       ViewSpaceUpdateResult::FAILED;
   }
+
+  SimpleViewSpaceModule::ViewSpaceUpdateResult SimpleViewSpaceModule::clearViewSpace()
+  {
+    viewspace_.clear();
+    return ViewSpaceUpdateResult::SUCCEEDED;
+  }
   
 }
 

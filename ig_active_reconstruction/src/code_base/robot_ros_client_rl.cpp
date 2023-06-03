@@ -65,7 +65,7 @@ namespace robot
       if (cur_position == nextBestView) {
         break;
       }
-      std::cout << "cur_position: " << cur_position << " nbv: " << nextBestView << std::endl;
+    //   std::cout << "cur_position: " << cur_position << " nbv: " << nextBestView << std::endl;
       ros::Duration(1).sleep();
     };
     ros::Duration(10).sleep();

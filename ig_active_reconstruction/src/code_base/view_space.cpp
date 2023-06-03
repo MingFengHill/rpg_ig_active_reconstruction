@@ -173,6 +173,22 @@ void ViewSpace::push_back( View new_vp )
   views_index_map_[new_vp.index()] = new_vp;//std::reference_wrapper<View>(view_ref);
 }
 
+void ViewSpace::clear()
+{
+  if( views_index_map_.empty() ) 
+  {
+    throw std::runtime_error("ViewSpace::getAClosestNeighbour::Cannot find a closest neighbour since the view space is empty.");
+  }
+  for( auto& pair: views_index_map_ )
+  {
+    View& view = pair.second;
+    view.bad() = false;
+    view.reachable() = true;
+    view.timesVisited() = 0;
+  }
+  std::cout << "ViewSpace::clear() call" << std::endl;
+}
+
 View ViewSpace::getAClosestNeighbour( View& _view )
 {
   if( views_index_map_.empty() )

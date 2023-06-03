@@ -155,7 +155,7 @@ namespace ig_active_reconstruction
 	nbv = id_set[i];
       }
     }
-    //std::cout<<"\nChoosing view "<<nbv<<".";
+    std::cout<<"\nChoosing view "<<nbv<<"."<<std::endl;
     return nbv;
   }
   
@@ -181,7 +181,7 @@ namespace ig_active_reconstruction
 	{
 	  if( information_gains[i].status == world_representation::CommunicationInterface::ResultInformation::SUCCEEDED )
 	  {
-	    //std::cout<<"\nReturned gain of metric "<<i<<":"<<information_gains[i].predicted_gain;
+	    std::cout<<"\nReturned gain of metric "<<i<<":"<<information_gains[i].predicted_gain;
 	    ig_val += ig_weights_[i]*information_gains[i].predicted_gain;
 	  }
 	}

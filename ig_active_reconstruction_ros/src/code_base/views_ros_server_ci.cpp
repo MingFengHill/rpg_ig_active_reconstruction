@@ -34,6 +34,21 @@ namespace views
     viewspace_service_ = nh.advertiseService("views/space", &RosServerCI::viewspaceService, this );
     views_adder_service_ = nh.advertiseService("views/add", &RosServerCI::viewsAdderService, this );
     views_deleter_service_ = nh.advertiseService("views/delete", &RosServerCI::viewsDeleterService, this );
+    views_space_sub_ = nh.subscribe("views/clear", 1, &RosServerCI::viewsSpaceClearCallback, this);
+  }
+
+  void RosServerCI::viewsSpaceClearCallback(const std_msgs::Int32::ConstPtr& clear_token)
+  {
+    linked_interface_->clearViewSpace();
+    ROS_INFO("clear view space");
+  }
+
+  RosServerCI::ViewSpaceUpdateResult RosServerCI::clearViewSpace()
+  {
+    if( linked_interface_ == nullptr )
+      throw std::runtime_error("views::RosServerCI::Interface not linked.");
+    
+    return linked_interface_->clearViewSpace();
   }
     
   const ViewSpace& RosServerCI::getViewSpace()

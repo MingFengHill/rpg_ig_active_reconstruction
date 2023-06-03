@@ -24,6 +24,8 @@
 #include "ig_active_reconstruction_msgs/ViewSpaceRequest.h"
 #include "ig_active_reconstruction_msgs/ViewSpaceUpdate.h"
 
+#include <std_msgs/Int32.h>
+
 namespace ig_active_reconstruction
 {
   
@@ -66,6 +68,8 @@ namespace views
      * @return True if the view was found and deleted.
      */
     virtual ViewSpaceUpdateResult deleteView( View::IdType view_id );
+
+    virtual ViewSpaceUpdateResult clearViewSpace();
     
   protected:
     bool viewspaceService( ig_active_reconstruction_msgs::ViewSpaceRequest::Request& req, ig_active_reconstruction_msgs::ViewSpaceRequest::Response& res );
@@ -73,6 +77,8 @@ namespace views
     bool viewsAdderService( ig_active_reconstruction_msgs::ViewSpaceUpdate::Request& req, ig_active_reconstruction_msgs::ViewSpaceUpdate::Response& res );
     
     bool viewsDeleterService( ig_active_reconstruction_msgs::DeleteViews::Request& req, ig_active_reconstruction_msgs::DeleteViews::Response& res );
+
+    void viewsSpaceClearCallback(const std_msgs::Int32::ConstPtr& clear_token);
     
   protected:
     ros::NodeHandle nh_;
@@ -82,6 +88,7 @@ namespace views
     ros::ServiceServer viewspace_service_;
     ros::ServiceServer views_adder_service_;
     ros::ServiceServer views_deleter_service_;
+    ros::Subscriber views_space_sub_;
   };
   
 }

@@ -47,6 +47,8 @@ namespace octomap
     
   // Interface implementation
   public:
+    virtual ResultInformation clearTree()=0;
+
     /*! Calculates a set of information gains for a given view.
      * @param command Specifies which information gains have to be calculated and for which pose along with further parameters that define how the ig('s) will be collected.
      * @param output_ig (Output) Vector with the results of the information gain calculation. The indices correspond to the indices of the names in the metric_names array within the passed command.
