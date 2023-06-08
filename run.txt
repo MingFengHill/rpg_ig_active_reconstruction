@@ -2,3 +2,11 @@ roslaunch flying_gazebo_stereo_cam rviz.launch
 roslaunch flying_gazebo_stereo_cam view_space.launch
 roslaunch ig_active_reconstruction_octomap octomap_world_representation.launch
 roslaunch ig_active_reconstruction_ros benchmark_view_planner.launch
+
+
+nohup roslaunch flying_gazebo_stereo_cam view_space.launch > view_space.log 2>&1 &
+nohup roslaunch ig_active_reconstruction_octomap octomap_world_representation.launch > octomap.log 2>&1 &
+nohup roslaunch ig_active_reconstruction_ros benchmark_view_planner.launch > planner.log 2>&1 &
+
+nohup python information_gain_adapter.py > proxy.log 2>&1 &
+nohup python run_benchmark.sh > benchmark_nohub.log 2>&1 &
