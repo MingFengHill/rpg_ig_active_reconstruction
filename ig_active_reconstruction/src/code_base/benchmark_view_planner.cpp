@@ -52,6 +52,7 @@ namespace ig_active_reconstruction
   {
     std::unique_lock<std::mutex> lockGuard(view_update_mutex_);
     view_update_ = true;
+    std::cout << "BenchmarkViewPlanner::viewsSpaceClearCallback" << std::endl;
   }
 
   
@@ -193,21 +194,17 @@ namespace ig_active_reconstruction
       
     }while( viewspace_->empty() );
 
-    std::cout << "viewspace: " << viewspace_->size() << std::endl;
-    int first_id = robot_comm_unit_->getCurrentView();
-    std::cout << "first step: " << first_id << std::endl;
-    viewspace_->setBad(first_id * 2);
+//     std::cout << "viewspace: " << viewspace_->size() << std::endl;
+//     int first_id = robot_comm_unit_->getCurrentView();
+//     std::cout << "first step: " << first_id << std::endl;
+//     viewspace_->setBad(first_id * 2);
+    int first_id = 0;
 
     
     unsigned int reception_nr = 0;
 
     int step_num = 10;
-    int cur_step = 1;
-
-    {
-      std::unique_lock<std::mutex> lockGuard(view_update_mutex_);
-      view_update_ = false;
-    }
+    int cur_step = 10;
     
     do
     {
@@ -230,6 +227,10 @@ namespace ig_active_reconstruction
             break;
           }
         } while (true);
+        {
+          std::unique_lock<std::mutex> lockGuard(view_update_mutex_);
+          view_update_ = false;
+        }
       }
       cur_step++;
       // determine view candidate subset of viewspace .....................
